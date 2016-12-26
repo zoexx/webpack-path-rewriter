@@ -6,6 +6,7 @@ This is a [Webpack](http://webpack.github.io) plugin that:
 Plays nicely with [webpack-dev-server](http://webpack.github.io/docs/webpack-dev-server.html);
 see `includeHash` option of [the constructor](#new-pathrewriteropts--undefined).
 
+## * 此版本修改了原版中 publicPath 拼接部分，支持[hash]的引用，并不会同步更新版本，请使用[原版](https://www.npmjs.com/package/webpack-path-rewriter)
 
 ## Example
 

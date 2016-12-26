@@ -401,7 +401,9 @@ class PathRewriter
       var srcPath = trim(matches[ moduleData.pathMatchIndex ])
       try {
         var rwPath = this.rewritePath(srcPath, moduleData)
-        rwPath = this.prependPublicPath(moduleData.publicPath, rwPath)
+        var publicPath = moduleData.publicPath || "" ;
+            publicPath = publicPath.replace( /\[hash\]/ig , compiler.hash );
+        rwPath = this.prependPublicPath( publicPath , rwPath )
         this.opts.silent || (srcPath != rwPath) && console.error(
           `PathRewriter[ ${ moduleData.relPath } ]: "${ srcPath }" -> "${ rwPath }"`
         )
@@ -428,7 +430,14 @@ class PathRewriter
         console.error(`PathRewriter[ ${ moduleData.relPath } ]: inlined "${ assetUrl }"`)
       }
       return asset.source()
-    })
+    }).replace( /\{\{ROOT\}\}/ , function(){
+          // only for ibt community
+          var ROOT = compiler.options.ROOT || "" ;
+              ROOT = '"' + ROOT + '"' ;
+          console.error('ROOT -> ' + ROOT );
+          return ROOT ;
+      });
+      
     compiler.assets[ moduleData.url ] = {
       source: () => content,
       size: () => content.length
